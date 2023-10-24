@@ -1,0 +1,268 @@
+\documentclass[14pt, notitlepage]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{extsizes}
+\usepackage{geometry}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{tikz}
+
+\geometry{left=20mm,right=20mm,top=25mm,bottom=30mm}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\DeclareMathOperator{\rank}{rank}
+
+\begin{document}
+
+\title{Assignment 2}
+\maketitle
+
+\section*{Task 2}
+
+$A$ is $m \times n$ with SVD $A = U \Sigma V^T $. 
+
+First, let's prove that $ m \geqslant n $. Let $ m < n $, $\rank A \leqslant m < n$ and $ \rank A^T = \rank A $.
+But then $A^T A$ is $n \times n$ and $ \rank A^T A \leqslant \rank A < n $, so $A^T A $ is singular and 
+$\left( A^T A \right)^{-1} $ does not exist. Thus $ m \leqslant n $.
+
+The matrices $U$, $\Sigma$ and $V^T$ have the following properties (full SVD):
+\begin{itemize}
+    \item $U$ is $ m \times m$, unitary, possibly singular.
+    \item $\Sigma = \left[\frac{S}{O} \right] $, where $S$ is the non-zero diagonal submatrix of $\Sigma$
+        and $O$ is the zero submatrix. If $m = n$, then $\Sigma = S$.
+        Let also $\tilde{\Sigma} = \left[S^{-1} | O\right]$ --- such matrix that $\tilde{\Sigma} \Sigma = S^{-1}S = \hat{I}$.
+        Note that $ \tilde{\Sigma}^T \Sigma^T = \left[ S^{-1} | O \right] \cdot \left[ \frac{S}{O} \right] = \hat{I} $ and
+        $\tilde{\Sigma} \tilde{\Sigma}^T = \left[S^{-1} | O\right] \cdot \left[ \frac{S^{-1}}{O} \right] = S^{-2}$.
+    \item $V$ is $n \times n$, unitary, non-singular.
+\end{itemize}
+
+Having that properties, let's solve the problems:
+\begin{description}
+    \item [(i)] \[
+        \left( A^T A \right)^{-1} = \left( \left(U \Sigma V^T\right)^T \cdot U \Sigma V^T \right)^{-1} = 
+        \left( V \Sigma^T \cdot U^T U \cdot \Sigma V^T \right)^{-1} = \]\[
+        V \left( \Sigma^T \Sigma \right)^{-1} V^T =
+        V \left( \left[S | O\right] \left[\frac{S}{O}\right] \right)^{-1} V^T = 
+        V \left(S^2\right) V^T = V S^{-2} V^T.
+    \]
+
+    \item [(ii)] \[
+        \left( A^T A \right)^{-1} A^T = V S^{-2} V^T \cdot V \Sigma^T U^T =
+        V S^{-2} \cdot \Sigma^T U^T = V \tilde{\Sigma} \tilde{\Sigma}^T \cdot \Sigma^T U^T =
+        V \tilde{\Sigma} U^T.
+    \]
+
+    \item [(iii)] \[
+        A \left( A^T A \right)^{-1} = U \Sigma V^T \cdot V S^{-2} V^T =
+        U \Sigma \cdot \tilde{\Sigma} \tilde{\Sigma}^T V^T =
+        U \tilde{\Sigma}^T V^T.
+    \]
+
+    \item [(iv)] \[
+        A \left( A^T A \right)^{-1} A^T = U \Sigma V^T \cdot V S^{-2} V^T \cdot V \Sigma^T U^T =
+        U \Sigma \cdot \tilde{\Sigma} \tilde{\Sigma}^T \cdot \Sigma^T U^T =
+        U U^T = \hat{I} = \hat{I} \cdot \hat{I} \cdot \hat{I}.
+    \]
+\end{description}
+
+\section*{Task 3}
+\subsection*{Compute SVD}
+
+The given matrix is
+\[
+    A = \begin{bmatrix}
+        -2  & 11 \\
+        -10 & 5
+    \end{bmatrix}.
+\]
+
+First we compute the eigenvalues of $AA^T$:
+\[
+    AA^T = \begin{bmatrix}
+        -2  & 11 \\
+        -10 & 5
+    \end{bmatrix}
+    \cdot
+    \begin{bmatrix}
+        -2 & -10 \\
+        11 & 5
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        125 & 75 \\
+        75 & 125
+    \end{bmatrix}
+\]
+\[
+    \det\left(AA^T - \lambda I \right) = 
+    25 \cdot \det \begin{bmatrix}
+        5 - \tilde{\lambda} & 3 \\
+        3 & 5 - \tilde{\lambda}.
+    \end{bmatrix} = 
+    25 \left(\tilde{\lambda}^2 - 10\tilde{\lambda} + 16 \right) =
+    25 \left(\tilde{\lambda} - 2 \right) \left(\tilde{\lambda} - 8 \right),
+\]
+where $\lambda = 25\tilde{\lambda}$. $\lambda_1 = 25 \cdot 8 = 200$, $\lambda_2 = 25 \cdot 2 = 50$.
+The singular values are $\sigma_1 = 10\sqrt{2}$ and $\sigma_2 = 5\sqrt{2}$. This gives
+\[
+    \Sigma = \begin{bmatrix}
+        10\sqrt{2} & 0 \\
+        0 & 5\sqrt{2}
+    \end{bmatrix}.
+\]
+
+The left singular vectors are the unit eigenvectors of $AA^T$:
+\[
+    \left(A - \hat{I}\lambda_1 \right) \cdot s_1 = \begin{bmatrix}
+        -75 &  75 \\ 
+        75  & -75
+    \end{bmatrix} \cdot
+    \begin{bmatrix} s_1^1 \\ s_1^2 \end{bmatrix} = 
+    75 \begin{bmatrix}
+        -1 & 1 \\
+        1 & -1
+    \end{bmatrix} \cdot
+    \begin{bmatrix} s_1^1 \\ s_1^2 \end{bmatrix} = 0 \ \Rightarrow \
+    s_1 = \frac{1}{\sqrt{2}}\begin{bmatrix} 1 \\ 1 \end{bmatrix}.
+\]
+\[
+    \left(A - \hat{I}\lambda_2 \right) \cdot s_2 = \begin{bmatrix}
+        75 & 75 \\ 
+        75 & 75
+    \end{bmatrix} \cdot
+    \begin{bmatrix} s_2^1 \\ s_2^2 \end{bmatrix} = 
+    75 \begin{bmatrix}
+        1 & 1 \\
+        1 & 1
+    \end{bmatrix} \cdot
+    \begin{bmatrix} s_2^1 \\ s_2^2 \end{bmatrix} = 0 \ \Rightarrow \
+    s_2 = \frac{1}{\sqrt{2}}\begin{bmatrix} 1 \\ -1 \end{bmatrix}.
+\]
+This gives
+\[
+    U = \begin{bmatrix}
+        \frac{1}{\sqrt{2}} &  \frac{1}{\sqrt{2}} \\
+        \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}}
+    \end{bmatrix}
+\]
+Finally, $V^T$ can be found using the following formula:
+\[
+    V^T = \left(U\Sigma\right)^{-1}A.
+\]
+Compute $\left(U\Sigma\right)^{-1}$:
+\[
+    \left(U\Sigma\right)^{-1} = \begin{bmatrix}
+        10 &  5 \\
+        10 & -5
+    \end{bmatrix}^{-1} = 
+    \frac 15 \begin{bmatrix}
+        2 & 1 \\
+        2 & -1
+    \end{bmatrix}^{-1}.
+\]
+Using Gaussian elimination:
+\[
+    \begin{bmatrix}
+        2 & 1  & \vdots & 1 & 0 \\
+        2 & -1 & \vdots & 0 & 1
+    \end{bmatrix} \sim \begin{bmatrix}
+        2 & 1  & \vdots & 1 & 0 \\
+        0 & -2 & \vdots & -1 & 1 \\
+    \end{bmatrix} \sim \begin{bmatrix}
+        2 & 1  & \vdots & 1 & 0 \\
+        0 & 1  & \vdots & \frac 12 & -\frac 12 
+    \end{bmatrix} \sim \begin{bmatrix}
+        2 & 0 & \vdots & \frac 12 & \frac 12 \\
+        0 & 1  & \vdots & \frac 12 & -\frac 12
+    \end{bmatrix}, \\
+\] 
+\[
+    \begin{bmatrix}
+        2 & 1 \\
+        2 & -1
+    \end{bmatrix}^{-1} = \frac 14 \begin{bmatrix}
+        1 & 1 \\
+        2 & -2
+    \end{bmatrix}.
+\]
+This gives us
+\[
+    \left(U\Sigma\right)^{-1} = \frac 1{20} \begin{bmatrix}
+        1 & 1 \\
+        2 & -2
+    \end{bmatrix}
+\]
+and the last term of our SVD,
+\[
+    V^T = \frac 1{20} \begin{bmatrix}
+        1 & 1 \\
+        2 & -2
+    \end{bmatrix} \cdot \begin{bmatrix}
+        -2  & 11 \\
+        -10 & 5
+    \end{bmatrix} = \frac 15 \begin{bmatrix}
+        -3 & 4 \\
+        4 & 3
+    \end{bmatrix},
+\]
+\[
+    A = \begin{bmatrix}
+        \frac{1}{\sqrt{2}} &  \frac{1}{\sqrt{2}} \\
+        \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}}
+    \end{bmatrix} \cdot \begin{bmatrix}
+        10\sqrt{2} & 0 \\
+        0 & 5\sqrt{2}
+    \end{bmatrix} \cdot \begin{bmatrix}
+        -\frac 35 & \frac 45 \\
+         \frac 45 & \frac 35
+    \end{bmatrix}.
+\]
+
+\pagebreak
+\subsection*{2D Plots}
+\begin{figure*}[h]
+    \begin{tikzpicture}
+        \draw [->] (-3.5, 0) -- (3.6, 0);
+        \draw [->] (0, -3.5) -- (0, 3.6);
+        \draw [thick, ->] (0, 0) -- (-1.5, 2) node [anchor = south east] { $\sigma_1 = \left(-\frac 35, \frac 45 \right)$};
+        \draw [thick, ->] (0, 0) -- ( 2, 1.5) node [anchor = south west] { $\sigma_2 = \left(-\frac 45, \frac 35 \right)$};
+        \draw [gray, thick] (0, 0) circle (2.5);
+    \end{tikzpicture}
+    \qquad
+    \begin{tikzpicture}
+        \draw [->] (-3.5, 0) -- (3.6, 0);
+        \draw [->] (0, -3.5) -- (0, 3.6);
+        \draw [thick, ->] (0, 0) -- (2.5, 2.5) node [anchor = south] { $A\sigma_1 = \left(25, 25 \right)$};
+        \draw [thick, ->] (0, 0) -- (1.25, -1.25) node [anchor = north] { $A\sigma_2 = \left(12\frac 12, -12\frac 12 \right)$};
+        \draw [rotate around={45:(0,0)}, gray, thick] (0,0) ellipse (3.54 and 1.77);
+    \end{tikzpicture}
+    \caption{Singular vectors and their images under $A$ (not to scale).}
+\end{figure*}
+
+\subsection*{Norm of A}
+\[
+    \norm{A}_2 = \max \left\{\sigma_1, \sigma_2\right\} = \sigma_1 = 10\sqrt{2}.
+\]
+\[
+    \norm{A}_F = \sqrt{\sum_{i, j}a_{ij}^2} = \sqrt{4 + 100 + 121 + 25} = \sqrt{250} = 5\sqrt{10}.
+\]
+
+\subsection*{Eigenvalues of A}
+\[
+    \det \left(A - \lambda \hat{I}\right) = \det \begin{bmatrix}
+        -2 - \lambda & 11 \\
+        -10 & 5 - \lambda
+    \end{bmatrix} = \lambda^2 - 3\lambda + 100.
+\]
+\[
+    \lambda_{1,2} = \frac 32 + \frac 12 \sqrt{-391};
+\]
+\[
+    \lambda_1 = \frac 32 + \frac i2 \sqrt{391},\ \lambda_2 = \frac 32 - \frac i2 \sqrt{391}.
+\]
+
+\end{document}

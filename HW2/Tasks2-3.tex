@@ -16,6 +16,7 @@
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 \DeclareMathOperator{\rank}{rank}
 
+\author{Jana Plisiecka}
 \begin{document}
 
 \title{Assignment 2}
@@ -243,12 +244,39 @@ and the last term of our SVD,
     \caption{Singular vectors and their images under $A$ (not to scale).}
 \end{figure*}
 
+\subsection*{Inverse of A}
+\[
+    A^{-1} = \left( U \Sigma V^T \right)^{-1} = V \Sigma^{-1} U^T = \frac{1}{5}
+    \begin{bmatrix}
+    -3 & 4 \\
+    4 & 3
+    \end{bmatrix} \cdot \frac{1}{10\sqrt{2}} \begin{bmatrix}
+        1 & 0 \\
+        0 & 2
+    \end{bmatrix} \cdot \frac{1}{\sqrt{2}} \begin{bmatrix}
+        1 & 1 \\
+        1 & -1
+    \end{bmatrix} =
+\]
+\[
+    \frac{1}{100} \begin{bmatrix}
+        -3 & 8 \\
+        4 & 6
+    \end{bmatrix} \cdot \begin{bmatrix}
+        1 & 1 \\
+        1 & -1
+    \end{bmatrix} = \frac{1}{100} \begin{bmatrix}
+        5 & -11 \\
+        10 & -2
+    \end{bmatrix}.
+\]
+
 \subsection*{Norm of A}
 \[
     \norm{A}_2 = \max \left\{\sigma_1, \sigma_2\right\} = \sigma_1 = 10\sqrt{2}.
 \]
 \[
-    \norm{A}_F = \sqrt{\sum_{i, j}a_{ij}^2} = \sqrt{4 + 100 + 121 + 25} = \sqrt{250} = 5\sqrt{10}.
+    \norm{A}_F = \sqrt{\sigma_1^2 + \sigma_2^2} = \sqrt{200 + 50} = 5\sqrt{10}.
 \]
 
 \subsection*{Eigenvalues of A}

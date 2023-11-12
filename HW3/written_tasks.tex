@@ -1,0 +1,287 @@
+\documentclass[14pt, notitlepage]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{extsizes}
+\usepackage{geometry}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{tikz}
+
+\geometry{left=20mm,right=20mm,top=25mm,bottom=30mm}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\DeclareMathOperator{\rank}{rank}
+
+\begin{document}
+
+\title{Assignment 2}
+\maketitle
+
+\section*{Task 1}
+\[
+    A = \begin{bmatrix}
+        1 & 0 \\
+        0 & 1 \\
+        1 & 0
+    \end{bmatrix}, \  B = \begin{bmatrix}
+        1 & 2 \\
+        0 & 1 \\
+        1 & 0
+    \end{bmatrix}
+\]
+
+\subsection*{Projectors}
+\[
+    \left(A^T A\right)^{-1} = \left( \begin{bmatrix}
+        1 & 0 & 1 \\
+        0 & 1 & 0
+    \end{bmatrix} \cdot \begin{bmatrix}
+        1 & 0 \\
+        0 & 1 \\
+        1 & 0
+    \end{bmatrix} \right)^{-1} = \begin{bmatrix}
+        2 & 0 \\
+        0 & 1
+    \end{bmatrix}^{-1} = \frac{1}{2} \begin{bmatrix}
+        1 & 0 \\
+        0 & 2
+    \end{bmatrix}.
+\]
+\[
+    P_{A} = A\left( A^T A \right) A^T = \frac{1}{2} \begin{bmatrix}
+        1 & 0 \\
+        0 & 1 \\
+        1 & 0
+    \end{bmatrix} \cdot \begin{bmatrix}
+        1 & 0 \\
+        0 & 2
+    \end{bmatrix} \cdot \begin{bmatrix}
+        1 & 0 & 1 \\
+        0 & 1 & 0
+    \end{bmatrix} = \frac{1}{2} \begin{bmatrix}
+        1 & 0 \\
+        0 & 2 \\
+        1 & 0
+    \end{bmatrix} \cdot \begin{bmatrix}
+        1 & 0 & 1 \\
+        0 & 1 & 0
+    \end{bmatrix} = \frac{1}{2} \begin{bmatrix}
+        1 & 0 & 1 \\
+        0 & 2 & 0 \\
+        1 & 0 & 1
+    \end{bmatrix}.
+\]
+
+\[
+    \left( B^T B \right) = \left( \begin{bmatrix}
+        1 & 0 & 1 \\
+        2 & 1 & 0
+    \end{bmatrix} \cdot \begin{bmatrix}
+        1 & 2 \\
+        0 & 1 \\
+        1 & 0
+    \end{bmatrix} \right)^{-1} = \begin{bmatrix}
+        2 & 2 \\
+        2 & 5
+    \end{bmatrix}^{-1} = \frac{1}{6} \begin{bmatrix}
+        5 & -2 \\
+        -2 & 2
+    \end{bmatrix}.
+\]
+\[
+    P_{B} = B\left( B^T B \right)B^T = \frac{1}{6} \begin{bmatrix}
+        1 & 2 \\
+        0 & 1 \\
+        1 & 0
+    \end{bmatrix} \cdot \begin{bmatrix}
+        5 & -2 \\
+        -2 & 2
+    \end{bmatrix} \cdot \begin{bmatrix}
+        1 & 0 & 1 \\
+        2 & 1 & 0
+    \end{bmatrix} = \frac{1}{6} \begin{bmatrix}
+         1 &  2 \\
+        -2 &  2 \\
+         5 & -2
+    \end{bmatrix} = \frac{1}{6} \begin{bmatrix}
+        5 & 2 &  1 \\
+        2 & 2 & -2 \\
+        1 & -2 & 5
+    \end{bmatrix}.
+\]
+
+\subsection*{QR Decompositon}
+
+\begin{itemize}
+    \item Matrix A:
+    \[
+        r_{11} = \norm{a_1}_2 = \sqrt{2},\ q_{1} = \frac{1}{\sqrt{2}} a_1.
+    \]
+    \[
+        r_{12} = q_{1}^T \cdot a_2 = 0,\ r_{22} = \norm{a_2 - r_{12}q_1}_2 =
+        \norm{a_2}_2 = 1,\ q_2 = a_2.
+    \]
+    \[
+        B = \frac{1}{\sqrt{2}}\begin{bmatrix}
+            1 & 0 \\
+            0 & \sqrt{2} \\
+            1 & 0
+        \end{bmatrix} \cdot \begin{bmatrix}
+            \sqrt{2} & 0 \\
+            0 & 1
+        \end{bmatrix}.
+    \]
+
+    \item Matrix B:
+    \[
+        r_{11} = \norm{b_1} = \sqrt{2},\ q_{1} = \frac{1}{\sqrt{2}} b_1.
+    \]
+    \[
+        r_{12} = q_1^T \cdot b_2 = \sqrt{2},\ r_{22} = \norm{b_2 - r_{12}q_{1}}_2 =
+        \norm{\begin{bmatrix} 1 & 1 & -1 \end{bmatrix}^T}_2 = \sqrt{3}.
+    \]
+    \[
+        q_2 = \frac{1}{\sqrt{3}}\begin{bmatrix}
+            1 & 1 & -1
+        \end{bmatrix}^T.
+    \]
+    \[
+        B = \frac{1}{\sqrt{6}}\begin{bmatrix}
+            \sqrt{3} &  \sqrt{2} \\
+            0        &  \sqrt{2} \\
+            \sqrt{2} & -\sqrt{2}
+        \end{bmatrix} \cdot \begin{bmatrix}
+            \sqrt{2} & \sqrt{2} \\
+            0        & \sqrt{3}
+        \end{bmatrix}.
+    \]
+\end{itemize}
+
+\section*{Task 3}
+
+\begin{itemize}
+    \item Equation (2):
+        \[ A = \frac{1}{2} \begin{bmatrix}
+            \sqrt{2} & -\sqrt{2} \\
+            1 & 1 \\ 
+            -1 & -1
+        \end{bmatrix},\ b = \begin{bmatrix}
+            1 & 0 & 1
+        \end{bmatrix}^T. 
+        \]
+        $A = U \Sigma V^T$, where
+        \[
+                U = \frac{1}{2\sqrt{2}}\begin{bmatrix}
+                -2 & 2 & 0 \\
+                -\sqrt{2} & -\sqrt{2} & 2 \\
+                \sqrt{2} & \sqrt{2} & 2
+            \end{bmatrix},\ \Sigma = \begin{bmatrix}
+                1 & 0 \\
+                0 & 1 \\
+                0 & 0
+            \end{bmatrix},\ V = -\hat{I}.
+        \]
+        Let $V^T x = \tilde{x},\ U^T b = \tilde{b}$, then $\Sigma \tilde{x} = \tilde{b}$:
+        \[
+            \begin{bmatrix}
+                1 & 0 \\
+                0 & 1 \\
+                0 & 0
+            \end{bmatrix} \begin{bmatrix}
+                \tilde{x}_1 \\ \tilde{x}_2
+            \end{bmatrix} = \begin{bmatrix}
+                \tilde{b}_1 \\ \tilde{b}_2 \\ \tilde{b}_3
+            \end{bmatrix}
+        \]
+        Thus, $\tilde{x} = \Sigma^T \tilde{b}$ and \[
+            x = V\tilde{x} = V \Sigma^T U^T b = \frac{1}{2\sqrt{2}} \begin{bmatrix}
+                -1 & 0 \\
+                0 & -1
+            \end{bmatrix} \cdot \begin{bmatrix}
+                1 & 0 & 0 \\
+                0 & 1 & 0
+            \end{bmatrix} \cdot \begin{bmatrix}
+                -2 & -\sqrt{2} & \sqrt{2} \\
+                2 & -\sqrt{2} & \sqrt{2} \\
+                0 & 2 & 2
+            \end{bmatrix} \cdot b =
+        \]
+        \[
+            -\frac{1}{2\sqrt{2}} \begin{bmatrix}
+                -2 & -\sqrt{2} & \sqrt{2} \\
+                2 & -\sqrt{2} & \sqrt{2} \\
+            \end{bmatrix} \cdot \begin{bmatrix}
+                1 \\ 0 \\ 1
+            \end{bmatrix} = -\frac{1}{2\sqrt{2}} \begin{bmatrix}
+                -2 + \sqrt{2} \\ 2 + \sqrt{2}
+            \end{bmatrix}.
+        \]
+    
+    \item Equation (3):
+        \[
+            A = \frac{1}{2} \begin{bmatrix}
+                \sqrt{2} & 1 & -1 \\
+                -\sqrt{2} & 1 & -1
+            \end{bmatrix} = U \Sigma V^T,\ b = \begin{bmatrix}
+                1 \\ -1
+            \end{bmatrix}.
+        \]
+        \[
+            U = \begin{bmatrix}
+                -1 & 0 \\
+                0 & 1
+            \end{bmatrix},\ \Sigma = \begin{bmatrix}
+                1 & 0 & 0 \\
+                0 & 1 & 0
+            \end{bmatrix},\ V = \frac{1}{2} \begin{bmatrix}
+                -\sqrt{2} & -\sqrt{2} & 0 \\
+                -1 & 1 & \sqrt{2} \\
+                1 & -1 & \sqrt{2}
+            \end{bmatrix}.
+        \]
+        Let $V^T x = \tilde{x},\ U^T b = \tilde{b}$, then $\Sigma \tilde{x} = \tilde{b}$:
+        \[
+            \begin{bmatrix}
+                1 & 0 & 0 \\
+                0 & 1 & 0
+            \end{bmatrix} \cdot \begin{bmatrix}
+                \tilde{x}_1 \\ \tilde{x}_2 \\ \tilde{x}_3
+            \end{bmatrix} = \begin{bmatrix}
+                \tilde{b}_1 \\ \tilde{b}_2
+            \end{bmatrix}.
+        \]
+        Thus, $\tilde{x} = \Sigma^T \tilde{b}$. $x = V\tilde{x} = V \Sigma^T U^T b$:
+        \[
+            x = \frac{1}{2} \begin{bmatrix}
+                -\sqrt{2} & -\sqrt{2} & 0 \\
+                -1 & 1 & \sqrt{2} \\
+                1 & -1 & \sqrt{2}
+            \end{bmatrix} \cdot \begin{bmatrix}
+                1 & 0 \\
+                0 & 1 \\
+                0 & 0
+            \end{bmatrix} \cdot \begin{bmatrix}
+                -1 & 0 \\
+                0 & 1
+            \end{bmatrix} \begin{bmatrix}
+                1 \\ -1
+            \end{bmatrix} =
+            \]
+            \[
+                -\frac{1}{2} \begin{bmatrix}
+                -\sqrt{2} & -\sqrt{2} & 0 \\
+                -1 & 1 & \sqrt{2} \\
+                1 & -1 & \sqrt{2}
+            \end{bmatrix} \cdot \begin{bmatrix}
+                1 \\ 1 \\ 0
+            \end{bmatrix} = \begin{bmatrix}
+                \sqrt{2} \\ 0 \\ 0
+            \end{bmatrix}.
+        \]
+\end{itemize}
+
+\end{document}
